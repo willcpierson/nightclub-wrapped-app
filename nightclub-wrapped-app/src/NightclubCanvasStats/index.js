@@ -1,6 +1,8 @@
 import { useRef, useEffect } from "react";
 let nightclubStatBackground = "/nightclubStatTemplate.png";
-let nightclubRedemptionStatBackground = "/nightclubRedemptionStatTemplate.png"
+let nightclubRedemptionStatBackground = "/nightclubRedemptionStatTemplate.png";
+let Top8Stamp = "/TOP8_STAMP.png";
+let BracketsWonStamp = "/BRACKETSWON_STAMP";
 
 const playerData = {
     "main":
@@ -56,6 +58,8 @@ export default function NightclubStatsImage() {
         // Load the nightclub template image plz
         const nightclubStats = new Image();
         nightclubStats.src = nightclubStatBackground;
+        const top8Badge = new Image();
+        top8Badge.src = Top8Stamp;
 
         nightclubStats.onload = () => {
           console.log("Image loaded successfully");
@@ -78,7 +82,13 @@ export default function NightclubStatsImage() {
                                         // other option is to put tag below maybe?
             ctx.fillStyle = "cyan";
             ctx.fillText(playerData.main.rival.tag, 90, 525); // bracket Rival stat
+            const isTop8 = () => {
+                if (playerData.main.topEightFinishes > 0) {
+                    ctx.drawImage(top8Badge, 160, 505, 110, 110)
+                };
+            };
 
+            isTop8();
         };
 
         // Error handling if the nightclub template doesn't load
@@ -120,7 +130,9 @@ export function NightclubRedemptionStatsImage() {
 
         // Load the nightclub template image plz
         const nightclubStats = new Image();
-        nightclubStats.src = nightclubRedemptionStatBackground;;
+        nightclubStats.src = nightclubRedemptionStatBackground;
+        const top8Badge = new Image();
+        top8Badge.src = Top8Stamp;
 
         nightclubStats.onload = () => {
           console.log("Image loaded successfully");
@@ -144,7 +156,13 @@ export function NightclubRedemptionStatsImage() {
             ctx.fillStyle = "cyan";
             ctx.fillText(playerData.redemption.rival.tag, 95, 545); // bracket Rival stat
 
-            // top 8 / bracket win stickers go
+            const isTop8 = () => {
+                if (playerData.redemption.topEightFinishes > 0) {
+                    ctx.drawImage(top8Badge, 160, 505, 110, 110)
+                };
+            };
+
+            isTop8();
         };
 
         // Error handling if the nightclub template doesn't load
