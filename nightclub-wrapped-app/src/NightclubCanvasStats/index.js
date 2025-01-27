@@ -41,8 +41,21 @@ const playerData = {
    "tournamentsAttended":51
   }
 
+
 export default function NightclubStatsImage() {
   const canvasRef = useRef(null);
+
+  const downloadStatsImage = () => {
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const dataURL = canvas.toDataURL();
+
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'nightclub-wrapped.png';
+      link.click();
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,11 +122,15 @@ export default function NightclubStatsImage() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={270}
-      height={605}
-    ></canvas>
+    <>
+        <canvas
+        ref={canvasRef}
+        width={270}
+        height={605}
+        >
+    </canvas>
+    <button onClick={downloadStatsImage}>Download Wrapped</button>
+    </>
   );
 }
 
@@ -122,6 +139,18 @@ export function NightclubRedemptionStatsImage() {
   const placedTop8 = playerData.redemption.topEightFinishes > 0 // boolean to place top 8 sticker or not
 
   const canvasRef = useRef(null);
+
+  const downloadStatsImage = () => {
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const dataURL = canvas.toDataURL();
+
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'nightclub-wrapped.png';
+      link.click();
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -167,12 +196,16 @@ export function NightclubRedemptionStatsImage() {
 
             const isTop8 = () => {
                 if (playerData.redemption.topEightFinishes > 0) {
-                    ctx.drawImage(top8Badge, 160, 515, 100, 100)
+                    ctx.drawImage(top8Badge, 175, 515, 100, 100)
+                    ctx.textAlign = "center"
+                    ctx.fillText(playerData.redemption.topEightFinishes, 225, 575)
                 };
             };
             const anyBracketsWon = () => {
                 if (playerData.redemption.bracketsWon > 0) {
-                    ctx.drawImage(bracketsWonBadge, 80, 515, 100, 100);
+                    ctx.drawImage(bracketsWonBadge, 105, 515, 100, 100);
+                    ctx.textAlign = "center";
+                    ctx.fillText(playerData.redemption.bracketsWon, 154, 575)
                 }
             }
             anyBracketsWon();
@@ -189,14 +222,15 @@ export function NightclubRedemptionStatsImage() {
       });
   }, []);
 
-  
-
   return (
-    <canvas
-      ref={canvasRef}
-      width={270}
-      height={605}
-    >
+    <>
+        <canvas
+        ref={canvasRef}
+        width={270}
+        height={605}
+        >
       </canvas>
+      <button onClick={downloadStatsImage}>Download Wrapped</button>
+    </>
   );
 }
