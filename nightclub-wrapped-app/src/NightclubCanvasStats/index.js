@@ -81,22 +81,22 @@ export default function NightclubStatsImage() {
 
           ctx.drawImage(nightclubStats, 0, 0, canvas.width, canvas.height);
 
-          ctx.font = "36px Library3AM"; // Patti's font for Nightclub stats
+          ctx.font = "28px Library3AM"; // Patti's font for Nightclub stats
           ctx.fillStyle = "violet";
           ctx.textAlign = "right";
             // potentially alternate fillStyle (color) for each stat, between violet and cyan
 
           ctx.fillText(playerData.tournamentsAttended, 255, 220); // tournaments attended stat
-          ctx.fillText(playerData.main.setsPlayed, 255, 270); // total sets played stat
-          ctx.fillText(Math.floor(100 * (playerData.main.setsWon / playerData.main.setsPlayed)), 255, 320); // % of sets won stat
-          ctx.fillText(playerData.main.bestPlacement.placement, 255, 380); // highest placement stat
+          ctx.fillText(playerData.main.setsPlayed, 255, 262); // total sets played stat
+          ctx.fillText(Math.floor(100 * (playerData.main.setsWon / playerData.main.setsPlayed)), 255, 300); // % of sets won stat
+          ctx.fillText(playerData.main.bestPlacement.placement, 255, 360); // highest placement stat
           // ^ add flavor text to it (17th, 1st, note that different placements end with different letters)
-          ctx.fillText(playerData.main.timesOutplacedSeed, 255, 460); // times outplaced seed stat
+          ctx.fillText(playerData.main.timesOutplacedSeed, 255, 420); // times outplaced seed stat
 
             ctx.font = "20px Library3AM" // change font to smaller size? May need to be dynamic based on tag length
                                         // other option is to put tag below maybe?
             ctx.fillStyle = "cyan";
-            ctx.fillText(playerData.main.rival.tag, 90, 525); // bracket Rival stat
+            ctx.fillText(playerData.main.rival.tag, 255, 505); // bracket Rival stat
             const isTop8 = () => {
                 if (playerData.main.topEightFinishes > 0) {
                     ctx.drawImage(top8Badge, 160, 505, 100, 100)
@@ -177,22 +177,22 @@ export function NightclubRedemptionStatsImage() {
 
           ctx.drawImage(nightclubStats, 0, 0, canvas.width, canvas.height);
 
-          ctx.font = "36px Library3AM"; // Patti's font for Nightclub stats
+          ctx.font = "28px Library3AM"; // Patti's font for Nightclub stats
           ctx.fillStyle = "violet";
           ctx.textAlign = "right";
             // potentially alternate fillStyle (color) for each stat, between violet and cyan
 
-          ctx.fillText(playerData.tournamentsAttended, 255, 200); // tournaments attended stat
-          ctx.fillText(playerData.redemption.setsPlayed, 255, 260); // total sets played stat
-          ctx.fillText(Math.floor(100 * (playerData.redemption.setsWon / playerData.redemption.setsPlayed)), 255, 305); // % of sets won stat
-          ctx.fillText(playerData.redemption.bestPlacement.placement, 255, 381); // highest placement stat
+          ctx.fillText(playerData.tournamentsAttended, 255, 205); // tournaments attended stat
+          ctx.fillText(playerData.redemption.setsPlayed, 255, 245); // total sets played stat
+          ctx.fillText(Math.floor(100 * (playerData.redemption.setsWon / playerData.redemption.setsPlayed)), 255, 285); // % of sets won stat
+          ctx.fillText(playerData.redemption.bestPlacement.placement, 255, 363); // highest placement stat
           // ^ add flavor text to it (17th, 1st, note that different placements end with different letters)
-          ctx.fillText(playerData.redemption.timesOutplacedSeed, 255, 460); // times outplaced seed stat
+          ctx.fillText(playerData.redemption.timesOutplacedSeed, 255, 422); // times outplaced seed stat
 
             ctx.font = "20px Library3AM" // change font to smaller size? May need to be dynamic based on tag length
                                         // other option is to put tag below maybe?
             ctx.fillStyle = "cyan";
-            ctx.fillText(playerData.redemption.rival.tag, 95, 545); // bracket Rival stat
+            ctx.fillText(playerData.redemption.rival.tag, 255, 509); // bracket Rival stat
 
             const isTop8 = () => {
                 if (playerData.redemption.topEightFinishes > 0) {
