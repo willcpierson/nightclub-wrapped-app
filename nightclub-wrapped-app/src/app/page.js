@@ -34,7 +34,7 @@ export default function Home() {
           onChange={(handleTagInput)}
         />
         {tag && filteredTags.length > 0 && (
-          <ul className="w-full max-w-xs bg-gray-800 text-white border border-gray-700 rounded-md absolute left-4 bottom-10">
+          <ul className="w-full max-w-xs bg-gray-800 text-white border border-gray-700 rounded-md absolute left-4 bottom-4 md:bottom-11">
             {filteredTags.map((option, index) => (
               <li
                 key={index}
