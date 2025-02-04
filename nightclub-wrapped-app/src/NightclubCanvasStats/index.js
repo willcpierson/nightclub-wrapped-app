@@ -129,7 +129,7 @@ export default function NightclubStatsImage() {
         height={605}
         >
     </canvas>
-    <button onClick={downloadStatsImage}>Download Wrapped</button>
+    <button onClick={downloadStatsImage} className='px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white'>Download Wrapped</button>
     </>
   );
 }
@@ -230,7 +230,7 @@ export function NightclubRedemptionStatsImage() {
         height={605}
         >
       </canvas>
-      <button onClick={downloadStatsImage}>Download Wrapped</button>
+      <button onClick={downloadStatsImage} className='px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white'>Download Wrapped</button>
     </>
   );
 }
