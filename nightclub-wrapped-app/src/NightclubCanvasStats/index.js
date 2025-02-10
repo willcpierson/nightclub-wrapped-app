@@ -3,10 +3,16 @@ let nightclubStatBackground = "/nightclubStatTemplate.png";
 let nightclubRedemptionStatBackground = "/nightclubRedemptionStatTemplate.png";
 let Top8Stamp = "/TOP8_STAMP.png";
 let BracketsWonStamp = "/BRACKETSWON_STAMP.png";
-import playerData from "../data"
+import playerData from "../data/enriched-participants";
 
+const getPlayerData = (tag) => {
+  for (let key in playerData) {
+    if (playerData[key]?.playerGamerTag === tag) return playerData[key];
+  }
+  return null;
+};
 
-export default function NightclubStatsImage() {
+export default function NightclubStatsImage(props) {
   const canvasRef = useRef(null);
 
   const downloadStatsImage = () => {
@@ -14,12 +20,15 @@ export default function NightclubStatsImage() {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL();
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = dataURL;
-      link.download = 'nightclub-wrapped.png';
+      link.download = "nightclub-wrapped.png";
       link.click();
     }
   };
+
+  const data = getPlayerData(props.tag);
+  const playerData = data.sets;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -48,36 +57,49 @@ export default function NightclubStatsImage() {
           ctx.font = "28px Library3AM"; // Patti's font for Nightclub stats
           ctx.fillStyle = "violet";
           ctx.textAlign = "right";
-            // potentially alternate fillStyle (color) for each stat, between violet and cyan
+          // potentially alternate fillStyle (color) for each stat, between violet and cyan
 
-          ctx.fillText(playerData.tournamentsAttended, 255, 220); // tournaments attended stat
+          ctx.fillText(data.numberOfEventsAttendedForMeleeSingle, 255, 220); // tournaments attended stat
           ctx.fillText(playerData.main.setsPlayed, 255, 262); // total sets played stat
-          ctx.fillText(Math.floor(100 * (playerData.main.setsWon / playerData.main.setsPlayed)), 255, 300); // % of sets won stat
+          ctx.fillText(
+            Math.floor(
+              100 * (playerData.main.setsWon / playerData.main.setsPlayed)
+            ),
+            255,
+            300
+          ); // % of sets won stat
           ctx.fillText(playerData.main.bestPlacement.placement, 255, 360); // highest placement stat
           // ^ add flavor text to it (17th, 1st, note that different placements end with different letters)
           ctx.fillText(playerData.main.timesOutplacedSeed, 255, 420); // times outplaced seed stat
 
-            ctx.font = "20px Library3AM" // change font to smaller size? May need to be dynamic based on tag length
-                                        // other option is to put tag below maybe?
-            ctx.fillStyle = "cyan";
-            ctx.fillText(playerData.main.rival.tag, 255, 505); // bracket Rival stat
-            const isTop8 = () => {
-                if (playerData.main.topEightFinishes > 0) {
-                    ctx.drawImage(top8Badge, 160, 505, 100, 100)
-                };
-            };
-            const anyBracketsWon = () => {
-                if (playerData.main.bracketsWon > 0) {
-                    ctx.drawImage(bracketsWonBadge, 80, 505, 100, 100);
-                }
+          ctx.font = "20px Library3AM"; // change font to smaller size? May need to be dynamic based on tag length
+          // other option is to put tag below maybe?
+          ctx.fillStyle = "cyan";
+          ctx.fillText(playerData.main.rival.tag, 255, 505); // bracket Rival stat
+          const isTop8 = () => {
+            if (playerData.main.topEightFinishes > 0) {
+              ctx.drawImage(top8Badge, 160, 505, 100, 100);
+              ctx.textAlign = "center";
+              ctx.fillText(playerData.main.topEightFinishes, 208, 565);
             }
-            anyBracketsWon();
-            isTop8();
+          };
+          const anyBracketsWon = () => {
+            if (playerData.main.bracketsWon > 0) {
+              ctx.drawImage(bracketsWonBadge, 80, 505, 100, 100);
+              ctx.textAlign = "center";
+              ctx.fillText(playerData.main.bracketsWon, 128, 565);
+            }
+          };
+          anyBracketsWon();
+          isTop8();
         };
 
         // Error handling if the nightclub template doesn't load
         nightclubStats.onerror = (error) => {
-          console.error("Error loading Nightclub Wrapped template image:", error);
+          console.error(
+            "Error loading Nightclub Wrapped template image:",
+            error
+          );
         };
       })
       .catch((error) => {
@@ -87,20 +109,22 @@ export default function NightclubStatsImage() {
 
   return (
     <>
-        <canvas
-        ref={canvasRef}
-        width={270}
-        height={605}
-        >
-    </canvas>
-    <button onClick={downloadStatsImage} className='px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white'>Download Wrapped</button>
+      <canvas ref={canvasRef} width={270} height={605}></canvas>
+      <button
+        onClick={downloadStatsImage}
+        className="px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white"
+      >
+        Download Wrapped
+      </button>
     </>
   );
 }
 
-export function NightclubRedemptionStatsImage() {
+export function NightclubRedemptionStatsImage(props) {
+  const data = getPlayerData(props.tag);
+  const playerData = data.sets;
 
-  const placedTop8 = playerData.redemption.topEightFinishes > 0 // boolean to place top 8 sticker or not
+  const placedTop8 = playerData.topEightFinishes > 0; // boolean to place top 8 sticker or not
 
   const canvasRef = useRef(null);
 
@@ -109,9 +133,9 @@ export function NightclubRedemptionStatsImage() {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL();
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = dataURL;
-      link.download = 'nightclub-wrapped.png';
+      link.download = "nightclub-wrapped.png";
       link.click();
     }
   };
@@ -144,41 +168,56 @@ export function NightclubRedemptionStatsImage() {
           ctx.font = "28px Library3AM"; // Patti's font for Nightclub stats
           ctx.fillStyle = "violet";
           ctx.textAlign = "right";
-            // potentially alternate fillStyle (color) for each stat, between violet and cyan
+          // potentially alternate fillStyle (color) for each stat, between violet and cyan
 
-          ctx.fillText(playerData.tournamentsAttended, 255, 205); // tournaments attended stat
+          ctx.fillText(
+            data.numberOfEventsAttendedForRedemptionBracket,
+            255,
+            205
+          ); // tournaments attended stat
           ctx.fillText(playerData.redemption.setsPlayed, 255, 245); // total sets played stat
-          ctx.fillText(Math.floor(100 * (playerData.redemption.setsWon / playerData.redemption.setsPlayed)), 255, 285); // % of sets won stat
+          ctx.fillText(
+            Math.floor(
+              100 *
+                (playerData.redemption.setsWon /
+                  playerData.redemption.setsPlayed)
+            ),
+            255,
+            285
+          ); // % of sets won stat
           ctx.fillText(playerData.redemption.bestPlacement.placement, 255, 363); // highest placement stat
           // ^ add flavor text to it (17th, 1st, note that different placements end with different letters)
           ctx.fillText(playerData.redemption.timesOutplacedSeed, 255, 422); // times outplaced seed stat
 
-            ctx.font = "20px Library3AM" // change font to smaller size? May need to be dynamic based on tag length
-                                        // other option is to put tag below maybe?
-            ctx.fillStyle = "cyan";
-            ctx.fillText(playerData.redemption.rival.tag, 255, 509); // bracket Rival stat
+          ctx.font = "20px Library3AM"; // change font to smaller size? May need to be dynamic based on tag length
+          // other option is to put tag below maybe?
+          ctx.fillStyle = "cyan";
+          ctx.fillText(playerData.redemption.rival.tag, 255, 509); // bracket Rival stat
 
-            const isTop8 = () => {
-                if (playerData.redemption.topEightFinishes > 0) {
-                    ctx.drawImage(top8Badge, 175, 515, 100, 100)
-                    ctx.textAlign = "center"
-                    ctx.fillText(playerData.redemption.topEightFinishes, 225, 575)
-                };
-            };
-            const anyBracketsWon = () => {
-                if (playerData.redemption.bracketsWon > 0) {
-                    ctx.drawImage(bracketsWonBadge, 105, 515, 100, 100);
-                    ctx.textAlign = "center";
-                    ctx.fillText(playerData.redemption.bracketsWon, 154, 575)
-                }
+          const isTop8 = () => {
+            if (playerData.redemption.topEightFinishes > 0) {
+              ctx.drawImage(top8Badge, 175, 515, 100, 100);
+              ctx.textAlign = "center";
+              ctx.fillText(playerData.redemption.topEightFinishes, 225, 575);
             }
-            anyBracketsWon();
-            isTop8();
+          };
+          const anyBracketsWon = () => {
+            if (playerData.redemption.bracketsWon > 0) {
+              ctx.drawImage(bracketsWonBadge, 105, 515, 100, 100);
+              ctx.textAlign = "center";
+              ctx.fillText(playerData.redemption.bracketsWon, 154, 575);
+            }
+          };
+          anyBracketsWon();
+          isTop8();
         };
 
         // Error handling if the nightclub template doesn't load
         nightclubStats.onerror = (error) => {
-          console.error("Error loading Nightclub Wrapped template image:", error);
+          console.error(
+            "Error loading Nightclub Wrapped template image:",
+            error
+          );
         };
       })
       .catch((error) => {
@@ -188,13 +227,13 @@ export function NightclubRedemptionStatsImage() {
 
   return (
     <>
-        <canvas
-        ref={canvasRef}
-        width={270}
-        height={605}
-        >
-      </canvas>
-      <button onClick={downloadStatsImage} className='px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white'>Download Wrapped</button>
+      <canvas ref={canvasRef} width={270} height={605}></canvas>
+      <button
+        onClick={downloadStatsImage}
+        className="px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white"
+      >
+        Download Wrapped
+      </button>
     </>
   );
 }
