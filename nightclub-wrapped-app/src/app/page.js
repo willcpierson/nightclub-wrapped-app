@@ -13,13 +13,16 @@ export default function Home() {
 
   const [filteredTags, setFilteredTags] = useState([]);
 
+  const handleTag = (tag) => {
+    setTag(tag);
+  };
+
   const handleTagInput = (e) => {
     setFilteredTags([]);
     const value = e.target.value;
     setTag(value);
-    console.log(value);
 
-    if (value.length < 3) return;
+    if (value.length < 2) return;
 
     setFilteredTags(
       options.filter((option) =>
@@ -41,7 +44,7 @@ export default function Home() {
           type="text"
           placeholder="Enter your tag here"
           className="flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800"
-          // value={tag}
+          value={tag}
           onChange={handleTagInput}
         />
         {tag && filteredTags.length > 0 && (
@@ -51,7 +54,7 @@ export default function Home() {
                 key={index}
                 className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                 onClick={() => {
-                  setTag(option);
+                  handleTag(option);
                   setFilteredTags([]);
                 }}
               >
