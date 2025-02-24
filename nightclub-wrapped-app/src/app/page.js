@@ -35,17 +35,25 @@ export default function Home() {
   const isTagValid = options.includes(tag);
 
   return (
-    <main className="flex justify-center min-h-screen flex-col items-center bg-gradient-to-b from-slate-800 to-gray-900">
+    <main className={
+      styles.main
+      // flex justify-center min-h-screen flex-col items-center bg-gradient-to-b from-slate-800 to-gray-900
+    }
+      >
       <div className="w-full max-w-5xl px-4 py-8 md:py-16 flex flex-col items-center relative">
+        {/*^ main_content_box */}
         <h1 className="mb-6 md:mb-8 text-5xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 px-2 py-3">
           Nightclub Wrapped
+          {/* ^title */}
         </h1>
-        {/* <form className="w-full max-w-md space-y-4 px-4"> */}
         <div className={styles.tag_input}>
           <input
             type="text"
             placeholder="Enter your tag here"
-            className="flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800"
+            className={
+              styles.input_box
+            // flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800
+            }
             value={tag}
             onChange={handleTagInput}
           />
