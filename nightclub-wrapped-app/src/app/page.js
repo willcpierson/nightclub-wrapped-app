@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import players from "../data/enriched-participants";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const options = [];
@@ -40,29 +41,39 @@ export default function Home() {
           Nightclub Wrapped
         </h1>
         {/* <form className="w-full max-w-md space-y-4 px-4"> */}
-        <input
-          type="text"
-          placeholder="Enter your tag here"
-          className="flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800"
-          value={tag}
-          onChange={handleTagInput}
-        />
-        {tag && filteredTags.length > 0 && (
-          <ul className="w-full max-w-xs bg-gray-800 text-white border border-gray-700 rounded-md absolute left-4 bottom-4 md:bottom-11">
-            {filteredTags.map((option, index) => (
-              <li
-                key={index}
-                className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
-                onClick={() => {
-                  handleTag(option);
-                  setFilteredTags([]);
-                }}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className={styles.tag_input}>
+          <input
+            type="text"
+            placeholder="Enter your tag here"
+            className="flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800"
+            value={tag}
+            onChange={handleTagInput}
+          />
+          {tag && filteredTags.length > 0 && (
+            <ul
+              className={
+                styles.dropdown_list
+                // "w-full max-w-xs bg-gray-800 text-white border border-gray-700 rounded-md left-4 bottom-4 md:bottom-11 z-index-1"
+              }
+            >
+              {filteredTags.map((option, index) => (
+                <li
+                  key={index}
+                  className={
+                    styles.dropdown_listitem
+                    // " px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                  }
+                  onClick={() => {
+                    handleTag(option);
+                    setFilteredTags([]);
+                  }}
+                >
+                  {option}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <Link
           key={tag}
           href={{
@@ -70,7 +81,7 @@ export default function Home() {
             query: { tag: tag },
           }}
           className={`
-                  px-6 py-3 my-2 rounded-lg text-xl font-semibold 
+                  px-6 py-3 my-2 rounded-lg text-xl font-semibold z-0
                   ${
                     isTagValid
                       ? "bg-gradient-to-r from-blue-400 to-purple-600 text-white"

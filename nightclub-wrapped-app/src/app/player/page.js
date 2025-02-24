@@ -3,10 +3,21 @@ import { useSearchParams } from "next/navigation";
 import NightclubStatsImage from "../../NightclubCanvasStats";
 import { NightclubRedemptionStatsImage } from "../../NightclubCanvasStats";
 import XShareButton from "../../XShareButton";
+import playerData from "../../data/enriched-participants";
 
 export default function PlayerPage() {
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag");
+  const getPlayerData = (tag) => {
+    for (let key in playerData) {
+      if (playerData[key]?.playerGamerTag === tag) return playerData[key];
+    }
+    return null;
+  };
+
+  const isRedemption = (tag) => {
+    return !!getPlayerData(tag)?.sets.redemption.setsPlayed;
+  };
 
   return (
     <main className="flex justify-center min-h-screen flex-col items-center bg-gradient-to-b from-slate-800 to-gray-900">
@@ -15,7 +26,7 @@ export default function PlayerPage() {
       </h1>
       <NightclubStatsImage tag={tag} />
       <br />
-      <NightclubRedemptionStatsImage tag={tag} />
+      {isRedemption(tag) ? <NightclubRedemptionStatsImage tag={tag} /> : null}
       <XShareButton
         className="flex items-center justify-center bg-[#000000] text-blue font-medium px-4 my-2 py-2 rounded-lg"
         text="I just got my Nightclub Wrapped for 2024!"
