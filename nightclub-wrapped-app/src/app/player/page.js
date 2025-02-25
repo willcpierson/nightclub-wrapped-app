@@ -10,7 +10,9 @@ export default function PlayerPage() {
   const tag = searchParams.get("tag");
   const getPlayerData = (tag) => {
     for (let key in playerData) {
-      if (playerData[key]?.playerGamerTag === tag) return playerData[key];
+      if (playerData[key]?.playerGamerTag.toLowerCase() === tag.toLowerCase()) {
+        return playerData[key];
+      }
     }
     return null;
   };
@@ -20,19 +22,21 @@ export default function PlayerPage() {
   };
 
   return (
-    <main className="flex justify-center min-h-screen flex-col items-center bg-gradient-to-b from-slate-800 to-gray-900">
-      <h1 className="mb-6 md:mb-8 text-5xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 px-2 py-3">
-        {tag}'s Nightclub Wrapped
-      </h1>
-      <NightclubStatsImage tag={tag} />
-      <br />
-      {isRedemption(tag) ? <NightclubRedemptionStatsImage tag={tag} /> : null}
-      <XShareButton
-        className="flex items-center justify-center bg-[#000000] text-blue font-medium px-4 my-2 py-2 rounded-lg"
-        text="I just got my Nightclub Wrapped for 2024!"
-        url="http://localhost:3002"
-      />
-      <br />
+    <main className="bg-gradient-to-b from-slate-800 to-gray-900">
+      <div className="mx-6 flex justify-center items-center flex-col">
+        <h1 className="mt-12 pb-1 md:text-6xl text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+          {tag}'s
+        </h1>
+        <h1 className="mb-12 pb-1 md:text-6xl text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+          Nightclub Wrapped
+        </h1>
+        <NightclubStatsImage tag={tag} />
+        {isRedemption(tag) ? <NightclubRedemptionStatsImage tag={tag} /> : null}
+        <XShareButton
+          text="I just got my Nightclub Wrapped for 2024!"
+          url="http://localhost:3002"
+        />
+      </div>
     </main>
   );
 }

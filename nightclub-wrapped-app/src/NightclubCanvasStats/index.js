@@ -4,10 +4,12 @@ let nightclubRedemptionStatBackground = "/nightclubRedemptionStatTemplate.png";
 let Top8Stamp = "/TOP8_STAMP.png";
 let BracketsWonStamp = "/BRACKETSWON_STAMP.png";
 import playerData from "../data/enriched-participants";
+import styles from "./Stats.module.css";
 
 const getPlayerData = (tag) => {
   for (let key in playerData) {
-    if (playerData[key]?.playerGamerTag === tag) return playerData[key];
+    if (playerData[key]?.playerGamerTag.toLowerCase() === tag.toLowerCase())
+      return playerData[key];
   }
   return null;
 };
@@ -109,10 +111,15 @@ export default function NightclubStatsImage(props) {
 
   return (
     <>
-      <canvas ref={canvasRef} width={270} height={605}></canvas>
+      <canvas
+        className={styles.canvas_max}
+        ref={canvasRef}
+        width={540}
+        height={1210}
+      ></canvas>
       <button
         onClick={downloadStatsImage}
-        className="px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white"
+        className="px-6 py-3 mb-8 text-l font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-zinc-100"
       >
         Download Wrapped
       </button>
@@ -227,10 +234,12 @@ export function NightclubRedemptionStatsImage(props) {
 
   return (
     <>
-      <canvas ref={canvasRef} width={270} height={605}></canvas>
+      <div className={styles.canvas_max}>
+        <canvas ref={canvasRef} width={270} height={605}></canvas>
+      </div>
       <button
         onClick={downloadStatsImage}
-        className="px-6 py-3 my-2 rounded-lg text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-white"
+        className="px-6 py-3 mb-8 text-l font-semibold bg-gradient-to-r from-blue-400 to-purple-600 text-zinc-100"
       >
         Download Wrapped
       </button>
