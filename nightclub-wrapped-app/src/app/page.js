@@ -25,24 +25,21 @@ export default function Home() {
 
     if (value.length < 2) return;
 
-    setFilteredTags(
-      options.filter((option) =>
-        option.toLowerCase().includes(value.toLowerCase())
-      )
+    const filtered = options.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
     );
+    setFilteredTags(filtered.slice(0, 8));
   };
 
-  const isTagValid = options.includes(tag);
+  const isTagValid = options
+    .map((e) => e.toLowerCase())
+    .includes(tag.toLowerCase());
 
   return (
-    <main className={
-      styles.main
-      // flex justify-center min-h-screen flex-col items-center bg-gradient-to-b from-slate-800 to-gray-900
-    }
-      >
-      <div className="w-full max-w-5xl px-4 py-8 md:py-16 flex flex-col items-center relative">
+    <main className={styles.main}>
+      <div className="max-w-5xl px-4 py-8 flex flex-col gap-6 items-center">
         {/*^ main_content_box */}
-        <h1 className="mb-6 md:mb-8 text-5xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 px-2 py-3">
+        <h1 className="pb-1 text-5xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 px-2">
           Nightclub Wrapped
           {/* ^title */}
         </h1>
@@ -52,7 +49,7 @@ export default function Home() {
             placeholder="Enter your tag here"
             className={
               styles.input_box
-            // flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800
+              // flex h-10 rounded-md border px-4 py-2 text-base shadow-sm w-full border-gray-700 text-white bg-gray-800
             }
             value={tag}
             onChange={handleTagInput}
@@ -84,16 +81,21 @@ export default function Home() {
         </div>
         <Link
           key={tag}
+          onClick={(e) => {
+            if (!isTagValid) {
+              e.preventDefault();
+            }
+          }}
           href={{
             pathname: `/player`,
             query: { tag: tag },
           }}
           className={`
-                  px-6 py-3 my-2 rounded-lg text-xl font-semibold z-0
+                  px-4 py-2 rounded-md text-l font-semibold cursor-select
                   ${
                     isTagValid
-                      ? "bg-gradient-to-r from-blue-400 to-purple-600 text-white"
-                      : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                      ? "bg-gradient-to-r from-blue-400 to-purple-600 text-white cursor-pointer"
+                      : "bg-gray-500 text-gray-300 cursor-default"
                   }
                 `}
         >
